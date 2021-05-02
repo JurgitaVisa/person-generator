@@ -2,8 +2,6 @@
  
 App returns following Lithuanian person data in json format: Name, Surname, LT Personal code, Phone number, Age, Birthdate, Gender, Citizenship.
 
-![Preview](images/random-person.jpg)
-
 #### Technologies used: 
 - Spring Boot 2.4.5, 
 - Java 11
