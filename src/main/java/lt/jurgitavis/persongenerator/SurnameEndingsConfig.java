@@ -1,6 +1,6 @@
 package lt.jurgitavis.persongenerator;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.context.annotation.Bean;
@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Configuration;
 public class SurnameEndingsConfig {
 
 	@Bean
-	public Map<String, String> surnameEndingPairs() {
+	public Map<String, String> surnameEndingPairsUnmarried() {
 		
-		Map<String, String> maleAndFemaleEndingPairs = new HashMap<>();
+		Map<String, String> maleAndFemaleEndingPairs = new LinkedHashMap<>();
 
 		maleAndFemaleEndingPairs.put("ius", "iūtė");
 		maleAndFemaleEndingPairs.put("jus", "jūtė");
@@ -25,6 +25,24 @@ public class SurnameEndingsConfig {
 		maleAndFemaleEndingPairs.put("a", "aitė");
 
 		return maleAndFemaleEndingPairs;
+	}
+	
+	@Bean
+	public Map<String, String> surnameEndingPairsMarried() {
+		
+		Map<String, String> maleAndFemaleEndingPairsMarried = new LinkedHashMap<>();
+
+		maleAndFemaleEndingPairsMarried.put("ius", "ienė");
+		maleAndFemaleEndingPairsMarried.put("jus", "jienė");
+		maleAndFemaleEndingPairsMarried.put("us", "ienė");
+		maleAndFemaleEndingPairsMarried.put("is", "ienė");
+		maleAndFemaleEndingPairsMarried.put("ys", "ienė");
+		maleAndFemaleEndingPairsMarried.put("ė", "ienė");
+		maleAndFemaleEndingPairsMarried.put("ia", "ienė");
+		maleAndFemaleEndingPairsMarried.put("as", "ienė");
+		maleAndFemaleEndingPairsMarried.put("a", "ienė");
+
+		return maleAndFemaleEndingPairsMarried;
 	}
 
 

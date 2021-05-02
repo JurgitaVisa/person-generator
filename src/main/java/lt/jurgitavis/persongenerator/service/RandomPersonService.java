@@ -23,14 +23,16 @@ public class RandomPersonService {
 	private final String DEFAULT_CITIZENSHIP = "Lithuanian";
 	private final String LT_PHONE_PREFIX = "+370 6";
 	private final LocalDate MAX_BIRTHDATE = LocalDate.now();
-	private final LocalDate MIN_BIRTHDATE = LocalDate.now().minusYears(100);
-	private final String DEFAULT_FEMALE_SURNAME_ENDING = "ienė";
+	private final LocalDate MIN_BIRTHDATE = LocalDate.now().minusYears(100);	
 
 	@Autowired
 	private PersonNameRepository nameRepository;
 
 	@Autowired
-	private Map<String, String> surnameEndingPairs;
+	private Map<String, String> surnameEndingPairsUnmarried;
+	
+	@Autowired
+	private Map<String, String> surnameEndingPairsMarried;
 
 	/**
 	 * Generates random person data and returns Person
@@ -93,12 +95,13 @@ public class RandomPersonService {
 	 * @param maleSurname
 	 * @return person's surname
 	 */
-	private String createMariedFemaleSurname(String maleSurname) {
+	protected String createMariedFemaleSurname(String maleSurname) {
 
-		for (String key : surnameEndingPairs.keySet()) {
-
+		for (String key : surnameEndingPairsMarried.keySet()) {			
+			
 			if (maleSurname.endsWith(key)) {
-				return replaceSurnameEnding(maleSurname, key, DEFAULT_FEMALE_SURNAME_ENDING);
+				
+				return replaceSurnameEnding(maleSurname, key, surnameEndingPairsMarried.get(key));
 			}
 		}
 
@@ -113,12 +116,13 @@ public class RandomPersonService {
 	 * @param maleSurname
 	 * @return person's surname
 	 */
-	private String createNonMariedFemaleSurname(String maleSurname) {
+	protected String createNonMariedFemaleSurname(String maleSurname) {
 
-		for (String key : surnameEndingPairs.keySet()) {
+		for (String key : surnameEndingPairsUnmarried.keySet()) {
 
 			if (maleSurname.endsWith(key)) {
-				return replaceSurnameEnding(maleSurname, key, surnameEndingPairs.get(key));
+				
+				return replaceSurnameEnding(maleSurname, key, surnameEndingPairsUnmarried.get(key));
 			}
 		}
 
@@ -140,7 +144,7 @@ public class RandomPersonService {
 		int indexOfEnding = maleSurname.lastIndexOf(ending);
 
 		femaleSurname.replace(indexOfEnding, (indexOfEnding + ending.length()), replacement);
-
+		
 		return femaleSurname.toString();
 	}
 
@@ -175,7 +179,7 @@ public class RandomPersonService {
 	 * @param birthdate
 	 * @return personal code
 	 */
-	private String generateLtPersonalCode(Gender gender, LocalDate birthdate) {
+	protected String generateLtPersonalCode(Gender gender, LocalDate birthdate) {
 
 		StringBuilder personalCode = new StringBuilder()
 				.append(getFirstDigitOfPersonalCode(gender, birthdate.getYear()))

@@ -3,7 +3,7 @@ package lt.jurgitavis.persongenerator.model;
 import java.time.LocalDate;
 
 /**
- * Model for Perosn data
+ * Model for Person data
  *
  */
 public class Person {

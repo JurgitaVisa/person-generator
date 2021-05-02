@@ -1,6 +1,5 @@
 package lt.jurgitavis.persongenerator.repository;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -21,7 +20,7 @@ public class InMemoryPersonNameRepository implements PersonNameRepository {
 
 	private final List<String> maleNames = new CopyOnWriteArrayList<>();
 
-	private final List<String> maleSurnames = new CopyOnWriteArrayList<>(Arrays.asList("Labanauskas", "Jurkėnas"));
+	private final List<String> maleSurnames = new CopyOnWriteArrayList<>();
 
 	/**
 	 * Returns random name in accordance to person gender

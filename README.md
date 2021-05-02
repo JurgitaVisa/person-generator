@@ -1,6 +1,6 @@
 # Random Lithuanian Person data generator
  
-Developed system returns following Lithuanian person data in json format: Name, Surname, LT Personal code, Phone number, Age, Birthdate, Gender, Citizenship.
+App returns following Lithuanian person data in json format: Name, Surname, LT Personal code, Phone number, Age, Birthdate, Gender, Citizenship.
 
 ![Preview](images/random-person.jpg)
 
@@ -31,15 +31,23 @@ $ cd {yourPathToFolder}/person-generator
 $ mvn package -DskipTests
 $ java -jar target/person-generator.jar --spring.profiles.active=test
 ```
-To stop the jar run the following:
+To stop the jar run the following get processId and stop it:
 ```shell
-$ netstat -ano | find "8080"
+$ netstat -ano | find "8080" 
 $ taskkill /F /PID <yourprocessID>
 ```
 
 ### Accessing API documentation
 
 http://localhost:8080/swagger-ui/
+
+### Data source and resources used
+
+Names and surnames are read and stored in lists upon app startup from *.txt files located in the project's resources folder.
+
+Resource used for names: http://www.varduzinynas.lt/vardai 
+
+Resource used for surnames: http://pavardes.lki.lt/?pg=pavardziu_daznumas
 
 ## Author
 
