@@ -2,10 +2,6 @@ package lt.jurgitavis.persongenerator.model;
 
 import java.time.LocalDate;
 
-/**
- * Model for Person data
- *
- */
 public class Person {
 	
 	private String name;

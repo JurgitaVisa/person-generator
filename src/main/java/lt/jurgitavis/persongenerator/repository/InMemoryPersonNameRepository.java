@@ -1,9 +1,8 @@
 package lt.jurgitavis.persongenerator.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import org.springframework.stereotype.Repository;
 
 import lt.jurgitavis.persongenerator.model.Gender;
@@ -16,15 +15,12 @@ import lt.jurgitavis.persongenerator.model.Gender;
 @Repository
 public class InMemoryPersonNameRepository implements PersonNameRepository {
 
-	private final List<String> femaleNames = new CopyOnWriteArrayList<>();	
+	private final List<String> femaleNames = new ArrayList<>();	
 
-	private final List<String> maleNames = new CopyOnWriteArrayList<>();
+	private final List<String> maleNames = new ArrayList<>();
 
-	private final List<String> maleSurnames = new CopyOnWriteArrayList<>();
+	private final List<String> maleSurnames = new ArrayList<>();
 
-	/**
-	 * Returns random name in accordance to person gender
-	 */
 	@Override
 	public String getRandomName(Gender gender) {
 
@@ -35,9 +31,6 @@ public class InMemoryPersonNameRepository implements PersonNameRepository {
 		}
 	}
 
-	/**
-	 * Returns random male surname
-	 */
 	@Override
 	public String getRandomSurname() {
 

@@ -13,10 +13,6 @@ import lt.jurgitavis.persongenerator.model.Gender;
 import lt.jurgitavis.persongenerator.model.Person;
 import lt.jurgitavis.persongenerator.repository.PersonNameRepository;
 
-/**
- * Service that generates random Person data
- *
- */
 @Service
 public class RandomPersonService {
 
@@ -34,11 +30,7 @@ public class RandomPersonService {
 	@Autowired
 	private Map<String, String> surnameEndingPairsMarried;
 
-	/**
-	 * Generates random person data and returns Person
-	 * 
-	 * @return random person
-	 */
+	
 	public Person getRandomPerson() {
 		Person randomPerson = new Person();
 
@@ -251,9 +243,9 @@ public class RandomPersonService {
 	 */
 	private LocalDate generateRandomBirthdate() {
 
-		int minDay = (int) MIN_BIRTHDATE.toEpochDay();
-		int maxDay = (int) MAX_BIRTHDATE.toEpochDay();
-		long randomDay = minDay + new Random().nextInt(maxDay - minDay);
+		long minDay = MIN_BIRTHDATE.toEpochDay();
+		long maxDay = MAX_BIRTHDATE.toEpochDay();
+		long randomDay = minDay + (long) (Math.random() * (maxDay - minDay));
 
 		return LocalDate.ofEpochDay(randomDay);
 	}

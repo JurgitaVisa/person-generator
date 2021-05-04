@@ -17,8 +17,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class PersonGeneratorApplication extends SpringBootServletInitializer {
 
-	private static String DATA_URI = "https://opendata.ecdc.europa.eu/covid19/nationalcasedeath/json/";
-
 	public static void main(String[] args) {
 		SpringApplication.run(PersonGeneratorApplication.class, args);
 	}
