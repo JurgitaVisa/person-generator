@@ -14,12 +14,9 @@ import lt.jurgitavis.persongenerator.service.RandomPersonService;
 public class RandomPersonController {
 	
 	@Autowired
-	RandomPersonService randomPersonService;
+	RandomPersonService randomPersonService;	
 	
 	
-	/**
-	 * Endpoint for random person data	 
-	 */
 	@GetMapping(value="/person")
 	@ApiOperation(value = "Get random person data")
 	public Person getRandomPerson() {

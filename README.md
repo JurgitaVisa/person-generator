@@ -35,6 +35,24 @@ $ netstat -ano | find "8080"
 $ taskkill /F /PID <yourprocessID>
 ```
 
+### Running the application with Docker
+
+To build and start Docker image:
+
+```shell
+$ cd {yourPathToFolder}/person-generator
+$ docker build -t <anynameforimagehere> .
+$ docker run -dp 8080:8080 --name <anycontainername> <nameyougaveyourimagehere>
+
+```
+The application will start on 8080 port http://localhost:8080/person
+
+To stop the container run ```$ docker stop <nameyougaveyourcontainerhere>```
+
+To start the container again ```$ docker start <nameyougaveyourcontainerhere>```
+
+To remove the container stop it and run ```$ docker rm <nameyougaveyourcontainerhere>```
+
 ### Accessing API documentation
 
 http://localhost:8080/swagger-ui/
