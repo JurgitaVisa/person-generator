@@ -2,6 +2,12 @@
  
 App returns following Lithuanian person data in json format: Name, Surname, LT Personal code, Phone number, Age, Birthdate, Gender, Citizenship.
 
+![ScreenShot](./images/random-person.jpg)
+
+View on heroku:<br>
+https://random-person-lithuanian.herokuapp.com/person<br>
+https://random-person-lithuanian.herokuapp.com/swagger-ui/
+
 #### Technologies used: 
 - Spring Boot 2.4.5, 
 - Java 11
