@@ -2,7 +2,7 @@
  
 App returns following Lithuanian person data in json format: Name, Surname, LT Personal code, Phone number, Age, Birthdate, Gender, Citizenship.
 
-![ScreenShot](images/random-person.jpg)
+![ScreenShot](images/random-person.JPG)
 
 View on heroku:<br>
 https://random-person-lithuanian.herokuapp.com/person<br>
