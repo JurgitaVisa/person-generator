@@ -7,11 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import lt.jurgitavis.persongenerator.model.Gender;
 
-/**
- * 
- * In memory repository of Lithuanian names and surnames
- *
- */
+
 @Repository
 public class InMemoryPersonNameRepository implements PersonNameRepository {
 

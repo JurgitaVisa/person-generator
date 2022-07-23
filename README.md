@@ -9,7 +9,7 @@ https://random-person-lithuanian.herokuapp.com/person<br>
 https://random-person-lithuanian.herokuapp.com/swagger-ui/
 
 #### Technologies used: 
-- Spring Boot 2.4.5, 
+- Spring Boot 2.7.1, 
 - Java 11
 - Swagger-UI, Maven
 

@@ -16,238 +16,186 @@ import lt.jurgitavis.persongenerator.repository.PersonNameRepository;
 @Service
 public class RandomPersonService {
 
-	private final String DEFAULT_CITIZENSHIP = "Lithuanian";
-	private final String LT_PHONE_PREFIX = "+370 6";
-	private final LocalDate MAX_BIRTHDATE = LocalDate.now();
-	private final LocalDate MIN_BIRTHDATE = LocalDate.now().minusYears(100);	
+    private final String DEFAULT_CITIZENSHIP = "Lithuanian";
+    private final String LT_PHONE_PREFIX = "+370 6";
+    private final LocalDate MAX_BIRTHDATE = LocalDate.now();
+    private final LocalDate MIN_BIRTHDATE = LocalDate.now().minusYears(100);
 
-	@Autowired
-	private PersonNameRepository nameRepository;
+    @Autowired
+    private PersonNameRepository nameRepository;
 
-	@Autowired
-	private Map<String, String> surnameEndingPairsUnmarried;
-	
-	@Autowired
-	private Map<String, String> surnameEndingPairsMarried;
+    @Autowired
+    private Map<String, String> surnameEndingPairsUnmarried;
 
-	
-	public Person getRandomPerson() {
-		Person randomPerson = new Person();
+    @Autowired
+    private Map<String, String> surnameEndingPairsMarried;
 
-		LocalDate birthdate = generateRandomBirthdate();
-		Gender gender = getRandomGender();
-		int age = calculateAge(birthdate);
 
-		randomPerson.setName(nameRepository.getRandomName(gender));
-		randomPerson.setSurname(getSurname(gender, age));
-		randomPerson.setPersonalCode(generateLtPersonalCode(gender, birthdate));
-		randomPerson.setPhoneNumber(generatePhoneNumber());
-		randomPerson.setAge(age);
-		randomPerson.setBirthdate(birthdate);
-		randomPerson.setGender(gender);
-		randomPerson.setCitizenship(DEFAULT_CITIZENSHIP);
+    public Person getRandomPerson() {
+        Person randomPerson = new Person();
 
-		return randomPerson;
-	}
+        LocalDate birthdate = generateRandomBirthdate();
+        Gender gender = getRandomGender();
+        int age = calculateAge(birthdate);
 
-	/**
-	 * Gets random person surname from repository. Modifies according to gender and
-	 * age
-	 * 
-	 * @param gender
-	 * @param age
-	 * @return surname
-	 */
-	private String getSurname(Gender gender, int age) {
-		String maleSurname = nameRepository.getRandomSurname();
+        randomPerson.setName(nameRepository.getRandomName(gender));
+        randomPerson.setSurname(getSurname(gender, age));
+        randomPerson.setPersonalCode(generateLtPersonalCode(gender, birthdate));
+        randomPerson.setPhoneNumber(generatePhoneNumber());
+        randomPerson.setAge(age);
+        randomPerson.setBirthdate(birthdate);
+        randomPerson.setGender(gender);
+        randomPerson.setCitizenship(DEFAULT_CITIZENSHIP);
 
-		if (gender.equals(Gender.MALE)) {
-			return maleSurname;
+        return randomPerson;
+    }
 
-		} else if (age < 18) {
-			return createNonMariedFemaleSurname(maleSurname);
+    /**
+     * Gets random person surname from repository. Modifies according to gender and
+     * age
+     */
+    private String getSurname(Gender gender, int age) {
+        String maleSurname = nameRepository.getRandomSurname();
 
-		} else {
+        if (gender.equals(Gender.MALE)) {
+            return maleSurname;
 
-			if (new Random().nextBoolean()) {
-				return createNonMariedFemaleSurname(maleSurname);
+        } else if (age < 18) {
+            return createNonMariedFemaleSurname(maleSurname);
 
-			} else {
-				return createMariedFemaleSurname(maleSurname);
-			}
-		}
+        } else {
 
-	}
+            if (new Random().nextBoolean()) {
+                return createNonMariedFemaleSurname(maleSurname);
 
-	/**
-	 * Creates female surname of a married Lithuanian woman using default
-	 * male-to-female ending replacement. If given male surname does not exist in
-	 * default male surname endings list, returns male surname instead.
-	 * 
-	 * @param maleSurname
-	 * @return person's surname
-	 */
-	protected String createMariedFemaleSurname(String maleSurname) {
+            } else {
+                return createMariedFemaleSurname(maleSurname);
+            }
+        }
 
-		for (String key : surnameEndingPairsMarried.keySet()) {			
-			
-			if (maleSurname.endsWith(key)) {
-				
-				return replaceSurnameEnding(maleSurname, key, surnameEndingPairsMarried.get(key));
-			}
-		}
+    }
 
-		return maleSurname;
-	}
+    /**
+     * Creates female surname of a married Lithuanian woman using default
+     * male-to-female ending replacement. If given male surname does not exist in
+     * default male surname endings list, returns male surname instead.
+     */
+    protected String createMariedFemaleSurname(String maleSurname) {
 
-	/**
-	 * Creates female surname of a non-married Lithuanian woman from default
-	 * male-to-female ending replacement map pairs. If given pair does not egsist,
-	 * returns male surname instead.
-	 * 
-	 * @param maleSurname
-	 * @return person's surname
-	 */
-	protected String createNonMariedFemaleSurname(String maleSurname) {
+        for (String key : surnameEndingPairsMarried.keySet()) {
 
-		for (String key : surnameEndingPairsUnmarried.keySet()) {
+            if (maleSurname.endsWith(key)) {
 
-			if (maleSurname.endsWith(key)) {
-				
-				return replaceSurnameEnding(maleSurname, key, surnameEndingPairsUnmarried.get(key));
-			}
-		}
+                return replaceSurnameEnding(maleSurname, key, surnameEndingPairsMarried.get(key));
+            }
+        }
 
-		return maleSurname;
-	}
+        return maleSurname;
+    }
 
-	/**
-	 * 
-	 * Replaces current surname ending with given replacement
-	 * 
-	 * @param maleSurname
-	 * @param ending
-	 * @param replacement
-	 * @return female surname
-	 */
-	private String replaceSurnameEnding(String maleSurname, String ending, String replacement) {
-		StringBuilder femaleSurname = new StringBuilder(maleSurname);
+    /**
+     * Creates female surname of a non-married Lithuanian woman from default
+     * male-to-female ending replacement map pairs. If given pair does not egsist,
+     * returns male surname instead.
+     */
+    protected String createNonMariedFemaleSurname(String maleSurname) {
 
-		int indexOfEnding = maleSurname.lastIndexOf(ending);
+        for (String key : surnameEndingPairsUnmarried.keySet()) {
 
-		femaleSurname.replace(indexOfEnding, (indexOfEnding + ending.length()), replacement);
-		
-		return femaleSurname.toString();
-	}
+            if (maleSurname.endsWith(key)) {
 
-	/**
-	 * Calculates persons age by birthdate
-	 * 
-	 * @param birthdate
-	 * @return age
-	 */
-	private int calculateAge(LocalDate birthdate) {
+                return replaceSurnameEnding(maleSurname, key, surnameEndingPairsUnmarried.get(key));
+            }
+        }
 
-		return (int) ChronoUnit.YEARS.between(birthdate, LocalDate.now());
-	}
+        return maleSurname;
+    }
 
-	/**
-	 * Generates random prone number with specified prefix
-	 * 
-	 * @return phone number
-	 */
-	private String generatePhoneNumber() {
+    /**
+     * Replaces current surname ending with given replacement
+     */
+    private String replaceSurnameEnding(String maleSurname, String ending, String replacement) {
+        StringBuilder femaleSurname = new StringBuilder(maleSurname);
 
-		StringBuilder phoneNumber = new StringBuilder().append(LT_PHONE_PREFIX)
-				.append(convertToFormatedString("0000000", new Random().nextInt(10000000)));
+        int indexOfEnding = maleSurname.lastIndexOf(ending);
 
-		return phoneNumber.toString();
-	}
+        femaleSurname.replace(indexOfEnding, (indexOfEnding + ending.length()), replacement);
 
-	/**
-	 * Generates LT personal code in accordance with established legal rules
-	 * 
-	 * @param gender
-	 * @param birthdate
-	 * @return personal code
-	 */
-	protected String generateLtPersonalCode(Gender gender, LocalDate birthdate) {
+        return femaleSurname.toString();
+    }
 
-		StringBuilder personalCode = new StringBuilder()
-				.append(getFirstDigitOfPersonalCode(gender, birthdate.getYear()))
-				.append(convertToFormatedString("00", birthdate.getYear() % 100))
-				.append(convertToFormatedString("00", birthdate.getMonthValue()))
-				.append(convertToFormatedString("00", birthdate.getDayOfMonth()))
-				.append(1000 + new Random().nextInt(10000 - 1000));
+    /**
+     * Calculates persons age by birthdate
+     */
+    private int calculateAge(LocalDate birthdate) {
 
-		return personalCode.toString();
-	}
+        return (int) ChronoUnit.YEARS.between(birthdate, LocalDate.now());
+    }
 
-	/**
-	 * Change random number to String of specified format
-	 * 
-	 * @param format
-	 * @param randomNumber
-	 */
-	private String convertToFormatedString(String format, int randomNumber) {
+    private String generatePhoneNumber() {
 
-		DecimalFormat numberFormat = new DecimalFormat(format);
+        return LT_PHONE_PREFIX +
+                convertToFormatedString("0000000", new Random().nextInt(10000000));
+    }
 
-		return numberFormat.format(randomNumber);
-	}
+    /**
+     * Generates LT personal code in accordance with established legal rules
+     */
+    protected String generateLtPersonalCode(Gender gender, LocalDate birthdate) {
 
-	/**
-	 * Returns first number of Personal code in accordance with established legal
-	 * rules
-	 * 
-	 * @param gender
-	 * @param yearOfBirth
-	 * @return first number of Personal code
-	 */
-	private int getFirstDigitOfPersonalCode(Gender gender, int yearOfBirth) {
+        return getFirstDigitOfPersonalCode(gender, birthdate.getYear()) +
+                convertToFormatedString("00", birthdate.getYear() % 100) +
+                convertToFormatedString("00", birthdate.getMonthValue()) +
+                convertToFormatedString("00", birthdate.getDayOfMonth()) +
+                (1000 + new Random().nextInt(10000 - 1000));
+    }
 
-		if (gender.equals(Gender.MALE)) {
-			if (yearOfBirth >= 2000) {
-				return 5;
-			} else {
-				return 3;
-			}
-		} else {
-			if (yearOfBirth >= 2000) {
-				return 6;
-			} else {
-				return 4;
-			}
-		}
+    private String convertToFormatedString(String format, int randomNumber) {
 
-	}
+        DecimalFormat numberFormat = new DecimalFormat(format);
 
-	/**
-	 * Generates and returns random gender
-	 * 
-	 * @return random gender
-	 */
-	private Gender getRandomGender() {
+        return numberFormat.format(randomNumber);
+    }
 
-		if (new Random().nextBoolean()) {
-			return Gender.MALE;
-		} else {
-			return Gender.FEMALE;
-		}
-	}
+    /**
+     * Returns first number of Personal code in accordance with established legal
+     * rules
+     */
+    private int getFirstDigitOfPersonalCode(Gender gender, int yearOfBirth) {
 
-	/**
-	 * Generates random birthdate in range of MIN and MAX values
-	 * 
-	 * @return random date of birth
-	 */
-	private LocalDate generateRandomBirthdate() {
+        if (gender.equals(Gender.MALE)) {
+            if (yearOfBirth >= 2000) {
+                return 5;
+            } else {
+                return 3;
+            }
+        } else {
+            if (yearOfBirth >= 2000) {
+                return 6;
+            } else {
+                return 4;
+            }
+        }
 
-		long minDay = MIN_BIRTHDATE.toEpochDay();
-		long maxDay = MAX_BIRTHDATE.toEpochDay();
-		long randomDay = minDay + (long) (Math.random() * (maxDay - minDay));
+    }
 
-		return LocalDate.ofEpochDay(randomDay);
-	}
+    private Gender getRandomGender() {
+
+        if (new Random().nextBoolean()) {
+            return Gender.MALE;
+        } else {
+            return Gender.FEMALE;
+        }
+    }
+
+
+    private LocalDate generateRandomBirthdate() {
+
+        long minDay = MIN_BIRTHDATE.toEpochDay();
+        long maxDay = MAX_BIRTHDATE.toEpochDay();
+        long randomDay = minDay + (long) (Math.random() * (maxDay - minDay));
+
+        return LocalDate.ofEpochDay(randomDay);
+    }
 
 }
