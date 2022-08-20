@@ -4,9 +4,12 @@ App returns following Lithuanian person data in json format: Name, Surname, LT P
 
 ![ScreenShot](images/random-person.JPG)
 
+You cal also get a list of persons by providing a count in the path http://localhost:8080/person/15
+
 View on heroku:<br>
 https://random-person-lithuanian.herokuapp.com/person<br>
-https://random-person-lithuanian.herokuapp.com/swagger-ui/
+https://random-person-lithuanian.herokuapp.com/person/15<br>
+https://random-person-lithuanian.herokuapp.com/swagger-ui.html
 
 #### Technologies used: 
 - Spring Boot 2.7.1, 
@@ -22,7 +25,8 @@ https://random-person-lithuanian.herokuapp.com/swagger-ui/
 - go to project folder `cd {yourPathToFolder}/person-generator`
 - Run `mvn spring-boot:run` (application will start on port 8080)  
 
-http://localhost:8080/person
+http://localhost:8080/person<br/>
+http://localhost:8080/person/{count}
 
 ### Running the application with Executable JAR 
 
@@ -61,7 +65,7 @@ To remove the container stop it and run ```$ docker rm <nameyougaveyourcontainer
 
 ### Accessing API documentation
 
-http://localhost:8080/swagger-ui/
+http://localhost:8080/swagger-ui.html
 
 ### Data source and resources used
 

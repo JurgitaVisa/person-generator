@@ -9,21 +9,14 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class Person {
-	
 	private String name;
-	
 	private String surname;
-	
 	private String personalCode;
-	
 	private String phoneNumber;
-	
 	private int age;
-	
 	private LocalDate birthdate;
-	
 	private Gender gender;
-	
 	private String citizenship;
+	private String email;
 
 }

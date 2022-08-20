@@ -18,7 +18,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = { PersonGeneratorApplication.class }, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 class RandomPersonControllerTest {
-	
 	@Autowired
 	private MockMvc mvc;
 	
@@ -27,6 +26,13 @@ class RandomPersonControllerTest {
 	MvcResult result= mvc.perform(get("/person")).andExpect(status().isOk()).andReturn();
 	
 	assertEquals(200, result.getResponse().getStatus());
+
+	}
+	@Test
+	public void testGetRandomPersonListGetMapping() throws Exception {
+		MvcResult result= mvc.perform(get("/person/2")).andExpect(status().isOk()).andReturn();
+
+		assertEquals(200, result.getResponse().getStatus());
 
 	}
 
